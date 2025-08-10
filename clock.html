@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Simple Digital Clock</title>
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(135deg,#1e3c72,#2a5298);
+      color: white;
+    }
+    .clock {
+      font-size: 5rem;
+      background: rgba(255,255,255,0.06);
+      padding: 1rem 1.5rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      display: inline-block;
+      letter-spacing: 0.03em;
+    }
+    .small { font-size: 1.4rem; display:block; text-align:center; opacity:0.9; margin-top:6px; }
+  </style>
+</head>
+<body>
+  <div>
+    <div id="clock" class="clock">00:00:00</div>
+    <div id="ampm" class="small"></div>
+  </div>
+
+  <script>
+    function pad(n){ return n.toString().padStart(2,'0'); }
+
+    function updateClock(){
+      const now = new Date();
+      // 24-hour format: hours = now.getHours();
+      // 12-hour format with AM/PM:
+      let hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      if (hours === 0) hours = 12;
+
+      document.getElementById('clock').textContent =
+        `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+      document.getElementById('ampm').textContent = ampm;
+    }
+
+    // update immediately, then every 1s
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>
